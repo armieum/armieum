@@ -1,0 +1,6 @@
+backend/node_modules/
+frontend/node_modules/
+backend/.env
+frontend/.env
+backend/hub_seed_list.csv
+.claude/settings.local.json
