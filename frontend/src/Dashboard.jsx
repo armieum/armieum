@@ -223,6 +223,7 @@ function Dashboard({ token, hubId, onLogout, onManageRooms, onViewAccount }) {
               [payload.room]: {
                 ...(prev[payload.room] || {}),
                 [payload.channel]: {
+                  ...(prev[payload.room]?.[payload.channel] || {}),
                   state: payload.state || "OFF",
                   source: payload.source || "mcu",
                   updatedAt: payload.updatedAt || new Date().toISOString(),
