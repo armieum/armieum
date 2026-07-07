@@ -227,6 +227,9 @@ function Dashboard({ token, hubId, onLogout, onManageRooms, onViewAccount }) {
                   state: payload.state || "OFF",
                   source: payload.source || "mcu",
                   updatedAt: payload.updatedAt || new Date().toISOString(),
+                  ...(payload.label    && { label:     payload.label }),
+                  ...(payload.roomLabel && { roomLabel: payload.roomLabel }),
+                  ...(payload.type     && { type:      payload.type }),
                 },
               },
             }));

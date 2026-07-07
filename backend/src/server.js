@@ -260,12 +260,16 @@ mqttClient.on("message", async (topic, messageBuffer) => {
     upsertDevice(hubId, room, channel, payload.state.toUpperCase(), payload.source || "mcu");
     hs.lastMessageAt = new Date().toISOString();
 
+    const dev = hs.devices[room][channel];
     broadcastToHub(hubId, "device_status", {
       room,
       channel,
-      state: hs.devices[room][channel].state,
-      source: hs.devices[room][channel].source,
-      updatedAt: hs.devices[room][channel].updatedAt,
+      state: dev.state,
+      source: dev.source,
+      updatedAt: dev.updatedAt,
+      label: dev.label,
+      roomLabel: dev.roomLabel,
+      type: dev.type,
     });
   }
 });
