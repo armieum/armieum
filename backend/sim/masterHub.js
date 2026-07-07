@@ -122,23 +122,10 @@ function connectMqtt() {
 portal.listen(PORTAL_PORT, async () => {
   console.log(`[${HUB_ID}] simulated master hub captive portal listening on http://localhost:${PORTAL_PORT}`);
 
-  // Auto-connect if this hub was already provisioned in a previous session
-  if (db) {
-    try {
-      const { rows } = await db.query(
-        "SELECT wifi_configured FROM master_hubs WHERE hub_id = $1",
-        [HUB_ID]
-      );
-      if (rows[0]?.wifi_configured) {
-        console.log(`[${HUB_ID}] already provisioned — auto-connecting to MQTT`);
-        wifiConfigured = true;
-        connectMqtt();
-        return;
-      }
-    } catch (e) {
-      console.warn(`[${HUB_ID}] DB check failed, falling back to manual provisioning:`, e.message);
-    }
-  }
-
-  console.log(`[${HUB_ID}] waiting for Wi-Fi provisioning via POST /provision { ssid, password }`);
+  // Sim hubs always auto-connect — WiFi provisioning is only meaningful
+  // for real ESP32 hardware. On Render the service sleeps and restarts
+  // frequently; waiting for manual provisioning every wake-up is unusable.
+  console.log(`[${HUB_ID}] sim hub — auto-connecting to MQTT`);
+  wifiConfigured = true;
+  connectMqtt();
 });
